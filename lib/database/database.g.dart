@@ -9,10 +9,11 @@ class $InstructorsTable extends Instructors
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $InstructorsTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  static const VerificationMeta _instructorIdMeta =
+      const VerificationMeta('instructorId');
   @override
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
-      'id', aliasedName, false,
+  late final GeneratedColumn<int> instructorId = GeneratedColumn<int>(
+      'instructor_id', aliasedName, false,
       hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
@@ -42,7 +43,8 @@ class $InstructorsTable extends Instructors
       type: DriftSqlType.string,
       requiredDuringInsert: true);
   @override
-  List<GeneratedColumn> get $columns => [id, username, password, name];
+  List<GeneratedColumn> get $columns =>
+      [instructorId, username, password, name];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -53,8 +55,11 @@ class $InstructorsTable extends Instructors
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    if (data.containsKey('instructor_id')) {
+      context.handle(
+          _instructorIdMeta,
+          instructorId.isAcceptableOrUnknown(
+              data['instructor_id']!, _instructorIdMeta));
     }
     if (data.containsKey('username')) {
       context.handle(_usernameMeta,
@@ -78,13 +83,13 @@ class $InstructorsTable extends Instructors
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {id};
+  Set<GeneratedColumn> get $primaryKey => {instructorId};
   @override
   Instructor map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return Instructor(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      instructorId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}instructor_id'])!,
       username: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}username'])!,
       password: attachedDatabase.typeMapping
@@ -101,19 +106,19 @@ class $InstructorsTable extends Instructors
 }
 
 class Instructor extends DataClass implements Insertable<Instructor> {
-  final int id;
+  final int instructorId;
   final String username;
   final String password;
   final String name;
   const Instructor(
-      {required this.id,
+      {required this.instructorId,
       required this.username,
       required this.password,
       required this.name});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
+    map['instructor_id'] = Variable<int>(instructorId);
     map['username'] = Variable<String>(username);
     map['password'] = Variable<String>(password);
     map['name'] = Variable<String>(name);
@@ -122,7 +127,7 @@ class Instructor extends DataClass implements Insertable<Instructor> {
 
   InstructorsCompanion toCompanion(bool nullToAbsent) {
     return InstructorsCompanion(
-      id: Value(id),
+      instructorId: Value(instructorId),
       username: Value(username),
       password: Value(password),
       name: Value(name),
@@ -133,7 +138,7 @@ class Instructor extends DataClass implements Insertable<Instructor> {
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return Instructor(
-      id: serializer.fromJson<int>(json['id']),
+      instructorId: serializer.fromJson<int>(json['instructorId']),
       username: serializer.fromJson<String>(json['username']),
       password: serializer.fromJson<String>(json['password']),
       name: serializer.fromJson<String>(json['name']),
@@ -143,7 +148,7 @@ class Instructor extends DataClass implements Insertable<Instructor> {
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
+      'instructorId': serializer.toJson<int>(instructorId),
       'username': serializer.toJson<String>(username),
       'password': serializer.toJson<String>(password),
       'name': serializer.toJson<String>(name),
@@ -151,9 +156,12 @@ class Instructor extends DataClass implements Insertable<Instructor> {
   }
 
   Instructor copyWith(
-          {int? id, String? username, String? password, String? name}) =>
+          {int? instructorId,
+          String? username,
+          String? password,
+          String? name}) =>
       Instructor(
-        id: id ?? this.id,
+        instructorId: instructorId ?? this.instructorId,
         username: username ?? this.username,
         password: password ?? this.password,
         name: name ?? this.name,
@@ -161,7 +169,7 @@ class Instructor extends DataClass implements Insertable<Instructor> {
   @override
   String toString() {
     return (StringBuffer('Instructor(')
-          ..write('id: $id, ')
+          ..write('instructorId: $instructorId, ')
           ..write('username: $username, ')
           ..write('password: $password, ')
           ..write('name: $name')
@@ -170,30 +178,30 @@ class Instructor extends DataClass implements Insertable<Instructor> {
   }
 
   @override
-  int get hashCode => Object.hash(id, username, password, name);
+  int get hashCode => Object.hash(instructorId, username, password, name);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is Instructor &&
-          other.id == this.id &&
+          other.instructorId == this.instructorId &&
           other.username == this.username &&
           other.password == this.password &&
           other.name == this.name);
 }
 
 class InstructorsCompanion extends UpdateCompanion<Instructor> {
-  final Value<int> id;
+  final Value<int> instructorId;
   final Value<String> username;
   final Value<String> password;
   final Value<String> name;
   const InstructorsCompanion({
-    this.id = const Value.absent(),
+    this.instructorId = const Value.absent(),
     this.username = const Value.absent(),
     this.password = const Value.absent(),
     this.name = const Value.absent(),
   });
   InstructorsCompanion.insert({
-    this.id = const Value.absent(),
+    this.instructorId = const Value.absent(),
     required String username,
     required String password,
     required String name,
@@ -201,13 +209,13 @@ class InstructorsCompanion extends UpdateCompanion<Instructor> {
         password = Value(password),
         name = Value(name);
   static Insertable<Instructor> custom({
-    Expression<int>? id,
+    Expression<int>? instructorId,
     Expression<String>? username,
     Expression<String>? password,
     Expression<String>? name,
   }) {
     return RawValuesInsertable({
-      if (id != null) 'id': id,
+      if (instructorId != null) 'instructor_id': instructorId,
       if (username != null) 'username': username,
       if (password != null) 'password': password,
       if (name != null) 'name': name,
@@ -215,12 +223,12 @@ class InstructorsCompanion extends UpdateCompanion<Instructor> {
   }
 
   InstructorsCompanion copyWith(
-      {Value<int>? id,
+      {Value<int>? instructorId,
       Value<String>? username,
       Value<String>? password,
       Value<String>? name}) {
     return InstructorsCompanion(
-      id: id ?? this.id,
+      instructorId: instructorId ?? this.instructorId,
       username: username ?? this.username,
       password: password ?? this.password,
       name: name ?? this.name,
@@ -230,8 +238,8 @@ class InstructorsCompanion extends UpdateCompanion<Instructor> {
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<int>(id.value);
+    if (instructorId.present) {
+      map['instructor_id'] = Variable<int>(instructorId.value);
     }
     if (username.present) {
       map['username'] = Variable<String>(username.value);
@@ -248,7 +256,7 @@ class InstructorsCompanion extends UpdateCompanion<Instructor> {
   @override
   String toString() {
     return (StringBuffer('InstructorsCompanion(')
-          ..write('id: $id, ')
+          ..write('instructorId: $instructorId, ')
           ..write('username: $username, ')
           ..write('password: $password, ')
           ..write('name: $name')
@@ -262,10 +270,11 @@ class $StudentsTable extends Students with TableInfo<$StudentsTable, Student> {
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $StudentsTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  static const VerificationMeta _studentIdMeta =
+      const VerificationMeta('studentId');
   @override
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
-      'id', aliasedName, false,
+  late final GeneratedColumn<int> studentId = GeneratedColumn<int>(
+      'student_id', aliasedName, false,
       hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
@@ -295,7 +304,7 @@ class $StudentsTable extends Students with TableInfo<$StudentsTable, Student> {
       type: DriftSqlType.string,
       requiredDuringInsert: true);
   @override
-  List<GeneratedColumn> get $columns => [id, username, password, name];
+  List<GeneratedColumn> get $columns => [studentId, username, password, name];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -306,8 +315,9 @@ class $StudentsTable extends Students with TableInfo<$StudentsTable, Student> {
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    if (data.containsKey('student_id')) {
+      context.handle(_studentIdMeta,
+          studentId.isAcceptableOrUnknown(data['student_id']!, _studentIdMeta));
     }
     if (data.containsKey('username')) {
       context.handle(_usernameMeta,
@@ -331,13 +341,13 @@ class $StudentsTable extends Students with TableInfo<$StudentsTable, Student> {
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {id};
+  Set<GeneratedColumn> get $primaryKey => {studentId};
   @override
   Student map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return Student(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      studentId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}student_id'])!,
       username: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}username'])!,
       password: attachedDatabase.typeMapping
@@ -354,19 +364,19 @@ class $StudentsTable extends Students with TableInfo<$StudentsTable, Student> {
 }
 
 class Student extends DataClass implements Insertable<Student> {
-  final int id;
+  final int studentId;
   final String username;
   final String password;
   final String name;
   const Student(
-      {required this.id,
+      {required this.studentId,
       required this.username,
       required this.password,
       required this.name});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
+    map['student_id'] = Variable<int>(studentId);
     map['username'] = Variable<String>(username);
     map['password'] = Variable<String>(password);
     map['name'] = Variable<String>(name);
@@ -375,7 +385,7 @@ class Student extends DataClass implements Insertable<Student> {
 
   StudentsCompanion toCompanion(bool nullToAbsent) {
     return StudentsCompanion(
-      id: Value(id),
+      studentId: Value(studentId),
       username: Value(username),
       password: Value(password),
       name: Value(name),
@@ -386,7 +396,7 @@ class Student extends DataClass implements Insertable<Student> {
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return Student(
-      id: serializer.fromJson<int>(json['id']),
+      studentId: serializer.fromJson<int>(json['studentId']),
       username: serializer.fromJson<String>(json['username']),
       password: serializer.fromJson<String>(json['password']),
       name: serializer.fromJson<String>(json['name']),
@@ -396,7 +406,7 @@ class Student extends DataClass implements Insertable<Student> {
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
+      'studentId': serializer.toJson<int>(studentId),
       'username': serializer.toJson<String>(username),
       'password': serializer.toJson<String>(password),
       'name': serializer.toJson<String>(name),
@@ -404,9 +414,9 @@ class Student extends DataClass implements Insertable<Student> {
   }
 
   Student copyWith(
-          {int? id, String? username, String? password, String? name}) =>
+          {int? studentId, String? username, String? password, String? name}) =>
       Student(
-        id: id ?? this.id,
+        studentId: studentId ?? this.studentId,
         username: username ?? this.username,
         password: password ?? this.password,
         name: name ?? this.name,
@@ -414,7 +424,7 @@ class Student extends DataClass implements Insertable<Student> {
   @override
   String toString() {
     return (StringBuffer('Student(')
-          ..write('id: $id, ')
+          ..write('studentId: $studentId, ')
           ..write('username: $username, ')
           ..write('password: $password, ')
           ..write('name: $name')
@@ -423,30 +433,30 @@ class Student extends DataClass implements Insertable<Student> {
   }
 
   @override
-  int get hashCode => Object.hash(id, username, password, name);
+  int get hashCode => Object.hash(studentId, username, password, name);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is Student &&
-          other.id == this.id &&
+          other.studentId == this.studentId &&
           other.username == this.username &&
           other.password == this.password &&
           other.name == this.name);
 }
 
 class StudentsCompanion extends UpdateCompanion<Student> {
-  final Value<int> id;
+  final Value<int> studentId;
   final Value<String> username;
   final Value<String> password;
   final Value<String> name;
   const StudentsCompanion({
-    this.id = const Value.absent(),
+    this.studentId = const Value.absent(),
     this.username = const Value.absent(),
     this.password = const Value.absent(),
     this.name = const Value.absent(),
   });
   StudentsCompanion.insert({
-    this.id = const Value.absent(),
+    this.studentId = const Value.absent(),
     required String username,
     required String password,
     required String name,
@@ -454,13 +464,13 @@ class StudentsCompanion extends UpdateCompanion<Student> {
         password = Value(password),
         name = Value(name);
   static Insertable<Student> custom({
-    Expression<int>? id,
+    Expression<int>? studentId,
     Expression<String>? username,
     Expression<String>? password,
     Expression<String>? name,
   }) {
     return RawValuesInsertable({
-      if (id != null) 'id': id,
+      if (studentId != null) 'student_id': studentId,
       if (username != null) 'username': username,
       if (password != null) 'password': password,
       if (name != null) 'name': name,
@@ -468,12 +478,12 @@ class StudentsCompanion extends UpdateCompanion<Student> {
   }
 
   StudentsCompanion copyWith(
-      {Value<int>? id,
+      {Value<int>? studentId,
       Value<String>? username,
       Value<String>? password,
       Value<String>? name}) {
     return StudentsCompanion(
-      id: id ?? this.id,
+      studentId: studentId ?? this.studentId,
       username: username ?? this.username,
       password: password ?? this.password,
       name: name ?? this.name,
@@ -483,8 +493,8 @@ class StudentsCompanion extends UpdateCompanion<Student> {
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<int>(id.value);
+    if (studentId.present) {
+      map['student_id'] = Variable<int>(studentId.value);
     }
     if (username.present) {
       map['username'] = Variable<String>(username.value);
@@ -501,7 +511,7 @@ class StudentsCompanion extends UpdateCompanion<Student> {
   @override
   String toString() {
     return (StringBuffer('StudentsCompanion(')
-          ..write('id: $id, ')
+          ..write('studentId: $studentId, ')
           ..write('username: $username, ')
           ..write('password: $password, ')
           ..write('name: $name')
@@ -515,10 +525,11 @@ class $CoursesTable extends Courses with TableInfo<$CoursesTable, Course> {
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $CoursesTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  static const VerificationMeta _courseIdMeta =
+      const VerificationMeta('courseId');
   @override
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
-      'id', aliasedName, false,
+  late final GeneratedColumn<int> courseId = GeneratedColumn<int>(
+      'course_id', aliasedName, false,
       hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
@@ -553,11 +564,11 @@ class $CoursesTable extends Courses with TableInfo<$CoursesTable, Course> {
       'instructor_id', aliasedName, false,
       type: DriftSqlType.int,
       requiredDuringInsert: true,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('REFERENCES instructors (id)'));
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'REFERENCES instructors (instructor_id)'));
   @override
   List<GeneratedColumn> get $columns =>
-      [id, title, description, timing, instructorId];
+      [courseId, title, description, timing, instructorId];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -568,8 +579,9 @@ class $CoursesTable extends Courses with TableInfo<$CoursesTable, Course> {
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    if (data.containsKey('course_id')) {
+      context.handle(_courseIdMeta,
+          courseId.isAcceptableOrUnknown(data['course_id']!, _courseIdMeta));
     }
     if (data.containsKey('title')) {
       context.handle(
@@ -601,13 +613,13 @@ class $CoursesTable extends Courses with TableInfo<$CoursesTable, Course> {
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {id};
+  Set<GeneratedColumn> get $primaryKey => {courseId};
   @override
   Course map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return Course(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      courseId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}course_id'])!,
       title: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}title'])!,
       description: attachedDatabase.typeMapping
@@ -626,13 +638,13 @@ class $CoursesTable extends Courses with TableInfo<$CoursesTable, Course> {
 }
 
 class Course extends DataClass implements Insertable<Course> {
-  final int id;
+  final int courseId;
   final String title;
   final String? description;
   final String timing;
   final int instructorId;
   const Course(
-      {required this.id,
+      {required this.courseId,
       required this.title,
       this.description,
       required this.timing,
@@ -640,7 +652,7 @@ class Course extends DataClass implements Insertable<Course> {
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
+    map['course_id'] = Variable<int>(courseId);
     map['title'] = Variable<String>(title);
     if (!nullToAbsent || description != null) {
       map['description'] = Variable<String>(description);
@@ -652,7 +664,7 @@ class Course extends DataClass implements Insertable<Course> {
 
   CoursesCompanion toCompanion(bool nullToAbsent) {
     return CoursesCompanion(
-      id: Value(id),
+      courseId: Value(courseId),
       title: Value(title),
       description: description == null && nullToAbsent
           ? const Value.absent()
@@ -666,7 +678,7 @@ class Course extends DataClass implements Insertable<Course> {
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return Course(
-      id: serializer.fromJson<int>(json['id']),
+      courseId: serializer.fromJson<int>(json['courseId']),
       title: serializer.fromJson<String>(json['title']),
       description: serializer.fromJson<String?>(json['description']),
       timing: serializer.fromJson<String>(json['timing']),
@@ -677,7 +689,7 @@ class Course extends DataClass implements Insertable<Course> {
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
+      'courseId': serializer.toJson<int>(courseId),
       'title': serializer.toJson<String>(title),
       'description': serializer.toJson<String?>(description),
       'timing': serializer.toJson<String>(timing),
@@ -686,13 +698,13 @@ class Course extends DataClass implements Insertable<Course> {
   }
 
   Course copyWith(
-          {int? id,
+          {int? courseId,
           String? title,
           Value<String?> description = const Value.absent(),
           String? timing,
           int? instructorId}) =>
       Course(
-        id: id ?? this.id,
+        courseId: courseId ?? this.courseId,
         title: title ?? this.title,
         description: description.present ? description.value : this.description,
         timing: timing ?? this.timing,
@@ -701,7 +713,7 @@ class Course extends DataClass implements Insertable<Course> {
   @override
   String toString() {
     return (StringBuffer('Course(')
-          ..write('id: $id, ')
+          ..write('courseId: $courseId, ')
           ..write('title: $title, ')
           ..write('description: $description, ')
           ..write('timing: $timing, ')
@@ -711,12 +723,13 @@ class Course extends DataClass implements Insertable<Course> {
   }
 
   @override
-  int get hashCode => Object.hash(id, title, description, timing, instructorId);
+  int get hashCode =>
+      Object.hash(courseId, title, description, timing, instructorId);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is Course &&
-          other.id == this.id &&
+          other.courseId == this.courseId &&
           other.title == this.title &&
           other.description == this.description &&
           other.timing == this.timing &&
@@ -724,20 +737,20 @@ class Course extends DataClass implements Insertable<Course> {
 }
 
 class CoursesCompanion extends UpdateCompanion<Course> {
-  final Value<int> id;
+  final Value<int> courseId;
   final Value<String> title;
   final Value<String?> description;
   final Value<String> timing;
   final Value<int> instructorId;
   const CoursesCompanion({
-    this.id = const Value.absent(),
+    this.courseId = const Value.absent(),
     this.title = const Value.absent(),
     this.description = const Value.absent(),
     this.timing = const Value.absent(),
     this.instructorId = const Value.absent(),
   });
   CoursesCompanion.insert({
-    this.id = const Value.absent(),
+    this.courseId = const Value.absent(),
     required String title,
     this.description = const Value.absent(),
     required String timing,
@@ -746,14 +759,14 @@ class CoursesCompanion extends UpdateCompanion<Course> {
         timing = Value(timing),
         instructorId = Value(instructorId);
   static Insertable<Course> custom({
-    Expression<int>? id,
+    Expression<int>? courseId,
     Expression<String>? title,
     Expression<String>? description,
     Expression<String>? timing,
     Expression<int>? instructorId,
   }) {
     return RawValuesInsertable({
-      if (id != null) 'id': id,
+      if (courseId != null) 'course_id': courseId,
       if (title != null) 'title': title,
       if (description != null) 'description': description,
       if (timing != null) 'timing': timing,
@@ -762,13 +775,13 @@ class CoursesCompanion extends UpdateCompanion<Course> {
   }
 
   CoursesCompanion copyWith(
-      {Value<int>? id,
+      {Value<int>? courseId,
       Value<String>? title,
       Value<String?>? description,
       Value<String>? timing,
       Value<int>? instructorId}) {
     return CoursesCompanion(
-      id: id ?? this.id,
+      courseId: courseId ?? this.courseId,
       title: title ?? this.title,
       description: description ?? this.description,
       timing: timing ?? this.timing,
@@ -779,8 +792,8 @@ class CoursesCompanion extends UpdateCompanion<Course> {
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<int>(id.value);
+    if (courseId.present) {
+      map['course_id'] = Variable<int>(courseId.value);
     }
     if (title.present) {
       map['title'] = Variable<String>(title.value);
@@ -800,7 +813,7 @@ class CoursesCompanion extends UpdateCompanion<Course> {
   @override
   String toString() {
     return (StringBuffer('CoursesCompanion(')
-          ..write('id: $id, ')
+          ..write('courseId: $courseId, ')
           ..write('title: $title, ')
           ..write('description: $description, ')
           ..write('timing: $timing, ')
@@ -816,10 +829,11 @@ class $CourseRegistrationsTable extends CourseRegistrations
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $CourseRegistrationsTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  static const VerificationMeta _courseRegisIdMeta =
+      const VerificationMeta('courseRegisId');
   @override
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
-      'id', aliasedName, false,
+  late final GeneratedColumn<int> courseRegisId = GeneratedColumn<int>(
+      'course_regis_id', aliasedName, false,
       hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
@@ -833,7 +847,7 @@ class $CourseRegistrationsTable extends CourseRegistrations
       type: DriftSqlType.int,
       requiredDuringInsert: true,
       defaultConstraints:
-          GeneratedColumn.constraintIsAlways('REFERENCES courses (id)'));
+          GeneratedColumn.constraintIsAlways('REFERENCES courses (course_id)'));
   static const VerificationMeta _studentIdMeta =
       const VerificationMeta('studentId');
   @override
@@ -841,10 +855,10 @@ class $CourseRegistrationsTable extends CourseRegistrations
       'student_id', aliasedName, false,
       type: DriftSqlType.int,
       requiredDuringInsert: true,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('REFERENCES students (id)'));
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'REFERENCES students (student_id)'));
   @override
-  List<GeneratedColumn> get $columns => [id, courseId, studentId];
+  List<GeneratedColumn> get $columns => [courseRegisId, courseId, studentId];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -855,8 +869,11 @@ class $CourseRegistrationsTable extends CourseRegistrations
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    if (data.containsKey('course_regis_id')) {
+      context.handle(
+          _courseRegisIdMeta,
+          courseRegisId.isAcceptableOrUnknown(
+              data['course_regis_id']!, _courseRegisIdMeta));
     }
     if (data.containsKey('course_id')) {
       context.handle(_courseIdMeta,
@@ -874,13 +891,13 @@ class $CourseRegistrationsTable extends CourseRegistrations
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {id};
+  Set<GeneratedColumn> get $primaryKey => {courseRegisId};
   @override
   CourseRegistration map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return CourseRegistration(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      courseRegisId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}course_regis_id'])!,
       courseId: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}course_id'])!,
       studentId: attachedDatabase.typeMapping
@@ -896,15 +913,17 @@ class $CourseRegistrationsTable extends CourseRegistrations
 
 class CourseRegistration extends DataClass
     implements Insertable<CourseRegistration> {
-  final int id;
+  final int courseRegisId;
   final int courseId;
   final int studentId;
   const CourseRegistration(
-      {required this.id, required this.courseId, required this.studentId});
+      {required this.courseRegisId,
+      required this.courseId,
+      required this.studentId});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
+    map['course_regis_id'] = Variable<int>(courseRegisId);
     map['course_id'] = Variable<int>(courseId);
     map['student_id'] = Variable<int>(studentId);
     return map;
@@ -912,7 +931,7 @@ class CourseRegistration extends DataClass
 
   CourseRegistrationsCompanion toCompanion(bool nullToAbsent) {
     return CourseRegistrationsCompanion(
-      id: Value(id),
+      courseRegisId: Value(courseRegisId),
       courseId: Value(courseId),
       studentId: Value(studentId),
     );
@@ -922,7 +941,7 @@ class CourseRegistration extends DataClass
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return CourseRegistration(
-      id: serializer.fromJson<int>(json['id']),
+      courseRegisId: serializer.fromJson<int>(json['courseRegisId']),
       courseId: serializer.fromJson<int>(json['courseId']),
       studentId: serializer.fromJson<int>(json['studentId']),
     );
@@ -931,22 +950,23 @@ class CourseRegistration extends DataClass
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
+      'courseRegisId': serializer.toJson<int>(courseRegisId),
       'courseId': serializer.toJson<int>(courseId),
       'studentId': serializer.toJson<int>(studentId),
     };
   }
 
-  CourseRegistration copyWith({int? id, int? courseId, int? studentId}) =>
+  CourseRegistration copyWith(
+          {int? courseRegisId, int? courseId, int? studentId}) =>
       CourseRegistration(
-        id: id ?? this.id,
+        courseRegisId: courseRegisId ?? this.courseRegisId,
         courseId: courseId ?? this.courseId,
         studentId: studentId ?? this.studentId,
       );
   @override
   String toString() {
     return (StringBuffer('CourseRegistration(')
-          ..write('id: $id, ')
+          ..write('courseRegisId: $courseRegisId, ')
           ..write('courseId: $courseId, ')
           ..write('studentId: $studentId')
           ..write(')'))
@@ -954,47 +974,49 @@ class CourseRegistration extends DataClass
   }
 
   @override
-  int get hashCode => Object.hash(id, courseId, studentId);
+  int get hashCode => Object.hash(courseRegisId, courseId, studentId);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is CourseRegistration &&
-          other.id == this.id &&
+          other.courseRegisId == this.courseRegisId &&
           other.courseId == this.courseId &&
           other.studentId == this.studentId);
 }
 
 class CourseRegistrationsCompanion extends UpdateCompanion<CourseRegistration> {
-  final Value<int> id;
+  final Value<int> courseRegisId;
   final Value<int> courseId;
   final Value<int> studentId;
   const CourseRegistrationsCompanion({
-    this.id = const Value.absent(),
+    this.courseRegisId = const Value.absent(),
     this.courseId = const Value.absent(),
     this.studentId = const Value.absent(),
   });
   CourseRegistrationsCompanion.insert({
-    this.id = const Value.absent(),
+    this.courseRegisId = const Value.absent(),
     required int courseId,
     required int studentId,
   })  : courseId = Value(courseId),
         studentId = Value(studentId);
   static Insertable<CourseRegistration> custom({
-    Expression<int>? id,
+    Expression<int>? courseRegisId,
     Expression<int>? courseId,
     Expression<int>? studentId,
   }) {
     return RawValuesInsertable({
-      if (id != null) 'id': id,
+      if (courseRegisId != null) 'course_regis_id': courseRegisId,
       if (courseId != null) 'course_id': courseId,
       if (studentId != null) 'student_id': studentId,
     });
   }
 
   CourseRegistrationsCompanion copyWith(
-      {Value<int>? id, Value<int>? courseId, Value<int>? studentId}) {
+      {Value<int>? courseRegisId,
+      Value<int>? courseId,
+      Value<int>? studentId}) {
     return CourseRegistrationsCompanion(
-      id: id ?? this.id,
+      courseRegisId: courseRegisId ?? this.courseRegisId,
       courseId: courseId ?? this.courseId,
       studentId: studentId ?? this.studentId,
     );
@@ -1003,8 +1025,8 @@ class CourseRegistrationsCompanion extends UpdateCompanion<CourseRegistration> {
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<int>(id.value);
+    if (courseRegisId.present) {
+      map['course_regis_id'] = Variable<int>(courseRegisId.value);
     }
     if (courseId.present) {
       map['course_id'] = Variable<int>(courseId.value);
@@ -1018,7 +1040,7 @@ class CourseRegistrationsCompanion extends UpdateCompanion<CourseRegistration> {
   @override
   String toString() {
     return (StringBuffer('CourseRegistrationsCompanion(')
-          ..write('id: $id, ')
+          ..write('courseRegisId: $courseRegisId, ')
           ..write('courseId: $courseId, ')
           ..write('studentId: $studentId')
           ..write(')'))
@@ -1027,17 +1049,22 @@ class CourseRegistrationsCompanion extends UpdateCompanion<CourseRegistration> {
 }
 
 class InstructorWithCoursesViewData extends DataClass {
+  final int instructorId;
   final String name;
-  final int? id;
+  final int? courseId;
   final String? title;
   const InstructorWithCoursesViewData(
-      {required this.name, this.id, this.title});
+      {required this.instructorId,
+      required this.name,
+      this.courseId,
+      this.title});
   factory InstructorWithCoursesViewData.fromJson(Map<String, dynamic> json,
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return InstructorWithCoursesViewData(
+      instructorId: serializer.fromJson<int>(json['instructorId']),
       name: serializer.fromJson<String>(json['name']),
-      id: serializer.fromJson<int?>(json['id']),
+      courseId: serializer.fromJson<int?>(json['courseId']),
       title: serializer.fromJson<String?>(json['title']),
     );
   }
@@ -1045,39 +1072,44 @@ class InstructorWithCoursesViewData extends DataClass {
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
+      'instructorId': serializer.toJson<int>(instructorId),
       'name': serializer.toJson<String>(name),
-      'id': serializer.toJson<int?>(id),
+      'courseId': serializer.toJson<int?>(courseId),
       'title': serializer.toJson<String?>(title),
     };
   }
 
   InstructorWithCoursesViewData copyWith(
-          {String? name,
-          Value<int?> id = const Value.absent(),
+          {int? instructorId,
+          String? name,
+          Value<int?> courseId = const Value.absent(),
           Value<String?> title = const Value.absent()}) =>
       InstructorWithCoursesViewData(
+        instructorId: instructorId ?? this.instructorId,
         name: name ?? this.name,
-        id: id.present ? id.value : this.id,
+        courseId: courseId.present ? courseId.value : this.courseId,
         title: title.present ? title.value : this.title,
       );
   @override
   String toString() {
     return (StringBuffer('InstructorWithCoursesViewData(')
+          ..write('instructorId: $instructorId, ')
           ..write('name: $name, ')
-          ..write('id: $id, ')
+          ..write('courseId: $courseId, ')
           ..write('title: $title')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(name, id, title);
+  int get hashCode => Object.hash(instructorId, name, courseId, title);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is InstructorWithCoursesViewData &&
+          other.instructorId == this.instructorId &&
           other.name == this.name &&
-          other.id == this.id &&
+          other.courseId == this.courseId &&
           other.title == this.title);
 }
 
@@ -1092,7 +1124,7 @@ class $InstructorWithCoursesViewView extends ViewInfo<
   $InstructorsTable get instructors =>
       attachedDatabase.instructors.createAlias('t1');
   @override
-  List<GeneratedColumn> get $columns => [name, id, title];
+  List<GeneratedColumn> get $columns => [instructorId, name, courseId, title];
   @override
   String get aliasedName => _alias ?? entityName;
   @override
@@ -1106,22 +1138,29 @@ class $InstructorWithCoursesViewView extends ViewInfo<
       {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return InstructorWithCoursesViewData(
+      instructorId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}instructor_id'])!,
       name: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}id']),
+      courseId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}course_id']),
       title: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}title']),
     );
   }
 
+  late final GeneratedColumn<int> instructorId = GeneratedColumn<int>(
+      'instructor_id', aliasedName, false,
+      generatedAs: GeneratedAs(instructors.instructorId, false),
+      type: DriftSqlType.int);
   late final GeneratedColumn<String> name = GeneratedColumn<String>(
       'name', aliasedName, false,
       generatedAs: GeneratedAs(instructors.name, false),
       type: DriftSqlType.string);
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
-      'id', aliasedName, true,
-      generatedAs: GeneratedAs(courses.id, false), type: DriftSqlType.int);
+  late final GeneratedColumn<int> courseId = GeneratedColumn<int>(
+      'course_id', aliasedName, true,
+      generatedAs: GeneratedAs(courses.courseId, false),
+      type: DriftSqlType.int);
   late final GeneratedColumn<String> title = GeneratedColumn<String>(
       'title', aliasedName, true,
       generatedAs: GeneratedAs(courses.title, false),
@@ -1134,7 +1173,8 @@ class $InstructorWithCoursesViewView extends ViewInfo<
   @override
   Query? get query =>
       (attachedDatabase.selectOnly(instructors)..addColumns($columns)).join([
-        leftOuterJoin(courses, courses.instructorId.equalsExp(instructors.id))
+        leftOuterJoin(
+            courses, courses.instructorId.equalsExp(instructors.instructorId))
       ]);
   @override
   Set<String> get readTables => const {'courses', 'instructors'};

@@ -17,7 +17,9 @@ class UserRepository {
     final instructor = await db.getInstructor(username, password);
     if (instructor != null) {
       _currentUser = User(
-          id: instructor.id, name: instructor.name, type: UserType.instructor);
+          id: instructor.instructorId,
+          name: instructor.name,
+          type: UserType.instructor);
       _userController.add(_currentUser);
     } else {
       _currentUser = null;
@@ -28,8 +30,8 @@ class UserRepository {
   Future<void> loginAsStudent(String username, String password) async {
     final student = await db.getStudent(username, password);
     if (student != null) {
-      _currentUser =
-          User(id: student.id, name: student.name, type: UserType.student);
+      _currentUser = User(
+          id: student.studentId, name: student.name, type: UserType.student);
       _userController.add(_currentUser);
     } else {
       _currentUser = null;

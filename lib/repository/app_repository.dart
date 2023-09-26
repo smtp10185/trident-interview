@@ -50,7 +50,7 @@ class AppRepository {
   Stream<List<Student>> watchStudentsOfCourse(int courseId) {
     final query = db.select(db.students).join([
       innerJoin(db.courseRegistrations,
-          db.students.id.equalsExp(db.courseRegistrations.studentId))
+          db.students.studentId.equalsExp(db.courseRegistrations.studentId))
     ])
       ..where(db.courseRegistrations.courseId.equals(courseId));
 
@@ -100,5 +100,14 @@ class AppRepository {
           ..where((t) =>
               t.studentId.equals(studentId) & t.courseId.equals(courseId)))
         .go();
+  }
+
+  // 學生查詢導師及附帶課程
+  Stream<List<InstructorWithCoursesViewData>> watchAllInstructorsWithCourses() {
+    return db.select(db.instructorWithCoursesView).watch().map((rows) {
+      return rows.map((row) {
+        return row;
+      }).toList();
+    });
   }
 }

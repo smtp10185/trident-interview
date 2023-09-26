@@ -33,7 +33,7 @@ class CourseListPage extends StatelessWidget {
                 return ListTile(
                   title: Text(course.title),
                   onTap: () {
-                    context.go('student-course-detail/${course.id}');
+                    context.go('student-course-detail/${course.courseId}');
                     // Assuming Course has an id property
                   },
                 );

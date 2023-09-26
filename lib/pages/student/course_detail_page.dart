@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:trident_interview/database/database.dart';
 import 'package:trident_interview/repository/app_repository.dart';
 import 'package:trident_interview/repository/user/user_repository.dart';
 

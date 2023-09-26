@@ -131,7 +131,7 @@ class InstructorDashboardPage extends StatelessWidget {
                 showDialog(
                   context: context,
                   builder: (context) =>
-                      CourseStudentsDialog(courseId: course.id),
+                      CourseStudentsDialog(courseId: course.courseId),
                 );
               },
             );

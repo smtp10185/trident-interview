@@ -1,8 +1,6 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:drift/drift.dart';
-import 'package:path/path.dart';
 
 part 'database.g.dart';
 
@@ -39,24 +37,21 @@ class AppDatabase extends _$AppDatabase {
   onCreate() {}
 }
 
-class InstructorWithCoursesData {
-  final Instructor instructor;
-  final List<Course> courses;
-
-  InstructorWithCoursesData({
-    required this.instructor,
-    required this.courses,
-  });
-}
-
+// 通過View的方法 得到多條導師記錄和課程記錄
+// 其中LeftOuterJoin導師會有重複
+// 在Repository會在處理成正確的model
 abstract class InstructorWithCoursesView extends View {
   Courses get courses;
   Instructors get instructors;
 
   @override
-  Query as() => select([instructors.name, courses.id, courses.title])
-          .from(instructors)
-          .join([
-        leftOuterJoin(courses, courses.instructorId.equalsExp(instructors.id)),
+  Query as() => select([
+        instructors.instructorId,
+        instructors.name,
+        courses.courseId,
+        courses.title
+      ]).from(instructors).join([
+        leftOuterJoin(
+            courses, courses.instructorId.equalsExp(instructors.instructorId)),
       ]);
 }

@@ -6,9 +6,18 @@ Implementing and playing around with SQLite.
 ## snip of app
 
 
+## 
+
+題目1 資料庫
+
+題目2 API（Repository）
+
+題目3 測試
+
 
 ## 可改進
 
+Hot-Reloading造成currentUser被清空
 賬號密碼的加密訪問
 權限限制的部分
-Hot-Reloading造成currentUser被清空
+
