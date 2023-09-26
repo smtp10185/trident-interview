@@ -6,9 +6,9 @@ Implementing and playing around with SQLite.
 
 ## snip of app
 
-<img src="https://github.com/smtp10185/trident-interview/assets/76031581/a411af81-dd95-4de1-97f0-76bb0590453f" width="200"/>
+<img src="https://github.com/smtp10185/trident-interview/assets/76031581/a411af81-dd95-4de1-97f0-76bb0590453f" width="250"/>
 
-![2](https://github.com/smtp10185/trident-interview/assets/76031581/4cb100fb-4e9f-47dd-9f8e-6bce4bb20552)
+<img src="https://github.com/smtp10185/trident-interview/assets/76031581/4cb100fb-4e9f-47dd-9f8e-6bce4bb20552" width="250"/>
 
 ## 
 
