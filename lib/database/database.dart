@@ -21,13 +21,11 @@ class AppDatabase extends _$AppDatabase {
 
   Future<int> addRandomCourse(int instructorId) async {
     final randomCourseCompanion = CoursesCompanion(
-      title: Value(
-          'Random Course ${_random.nextInt(1000)}'), // Generates a title like "Random Course 345"
-      description: const Value(
-          'This is a randomly generated course.'), // static description for demonstration
+      title: Value('Random Course ${_random.nextInt(1000)}'),
+      description: const Value('This is a randomly generated course.'),
       timing: Value(
           '${_random.nextInt(24).toString().padLeft(2, '0')}00-${_random.nextInt(24).toString().padLeft(2, '0')}00'), // Generates a timing like "0500-1400"
-      instructorId: Value(instructorId), // This should be provided as argument
+      instructorId: Value(instructorId),
     );
     return into(courses).insert(randomCourseCompanion);
   }

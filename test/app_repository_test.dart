@@ -4,6 +4,10 @@ import 'package:trident_interview/database/database.dart';
 import 'package:trident_interview/repository/app_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+// Repository測試兩個
+// 若測試Repository 理論上需要Mock AppDatabase
+// 為簡化直接使用AppDatabase
+
 void main() {
   late AppDatabase db;
   late AppRepository repository;

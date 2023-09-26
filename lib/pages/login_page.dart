@@ -71,7 +71,6 @@ class LoginPageState extends State<LoginPage> {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () async {
-                // mark as async
                 switch (_radioUserType) {
                   case UserType.instructor:
                     await userRepository
@@ -86,7 +85,7 @@ class LoginPageState extends State<LoginPage> {
                         .then((_) => context.go('/'));
                     break;
                   default:
-                    // show some error or feedback to the user to select a UserType
+                    // Error?
                     break;
                 }
               },

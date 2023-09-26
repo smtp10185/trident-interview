@@ -113,7 +113,7 @@ class InstructorDashboardPage extends StatelessWidget {
     final userRepository = Provider.of<UserRepository>(context);
 
     return StreamProvider<List<Course>>(
-      initialData: [],
+      initialData: const [],
       create: (_) => appRepository
           .watchCoursesByInstructorId(userRepository.currentUser!.id),
       child: Scaffold(
