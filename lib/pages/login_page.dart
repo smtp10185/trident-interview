@@ -27,6 +27,9 @@ class LoginPageState extends State<LoginPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            const Text("若不打賬號密碼，點擊對應選框後登錄即可進入Mock身份",
+                style: TextStyle(fontSize: 20)),
+            const SizedBox(height: 30),
             TextField(
               controller: _usernameController, // added controller
               decoration: const InputDecoration(

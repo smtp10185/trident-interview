@@ -1026,6 +1026,120 @@ class CourseRegistrationsCompanion extends UpdateCompanion<CourseRegistration> {
   }
 }
 
+class InstructorWithCoursesViewData extends DataClass {
+  final String name;
+  final int? id;
+  final String? title;
+  const InstructorWithCoursesViewData(
+      {required this.name, this.id, this.title});
+  factory InstructorWithCoursesViewData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return InstructorWithCoursesViewData(
+      name: serializer.fromJson<String>(json['name']),
+      id: serializer.fromJson<int?>(json['id']),
+      title: serializer.fromJson<String?>(json['title']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'name': serializer.toJson<String>(name),
+      'id': serializer.toJson<int?>(id),
+      'title': serializer.toJson<String?>(title),
+    };
+  }
+
+  InstructorWithCoursesViewData copyWith(
+          {String? name,
+          Value<int?> id = const Value.absent(),
+          Value<String?> title = const Value.absent()}) =>
+      InstructorWithCoursesViewData(
+        name: name ?? this.name,
+        id: id.present ? id.value : this.id,
+        title: title.present ? title.value : this.title,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('InstructorWithCoursesViewData(')
+          ..write('name: $name, ')
+          ..write('id: $id, ')
+          ..write('title: $title')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(name, id, title);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is InstructorWithCoursesViewData &&
+          other.name == this.name &&
+          other.id == this.id &&
+          other.title == this.title);
+}
+
+class $InstructorWithCoursesViewView extends ViewInfo<
+    $InstructorWithCoursesViewView,
+    InstructorWithCoursesViewData> implements HasResultSet {
+  final String? _alias;
+  @override
+  final _$AppDatabase attachedDatabase;
+  $InstructorWithCoursesViewView(this.attachedDatabase, [this._alias]);
+  $CoursesTable get courses => attachedDatabase.courses.createAlias('t0');
+  $InstructorsTable get instructors =>
+      attachedDatabase.instructors.createAlias('t1');
+  @override
+  List<GeneratedColumn> get $columns => [name, id, title];
+  @override
+  String get aliasedName => _alias ?? entityName;
+  @override
+  String get entityName => 'instructor_with_courses_view';
+  @override
+  Map<SqlDialect, String>? get createViewStatements => null;
+  @override
+  $InstructorWithCoursesViewView get asDslTable => this;
+  @override
+  InstructorWithCoursesViewData map(Map<String, dynamic> data,
+      {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return InstructorWithCoursesViewData(
+      name: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id']),
+      title: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}title']),
+    );
+  }
+
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+      'name', aliasedName, false,
+      generatedAs: GeneratedAs(instructors.name, false),
+      type: DriftSqlType.string);
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, true,
+      generatedAs: GeneratedAs(courses.id, false), type: DriftSqlType.int);
+  late final GeneratedColumn<String> title = GeneratedColumn<String>(
+      'title', aliasedName, true,
+      generatedAs: GeneratedAs(courses.title, false),
+      type: DriftSqlType.string);
+  @override
+  $InstructorWithCoursesViewView createAlias(String alias) {
+    return $InstructorWithCoursesViewView(attachedDatabase, alias);
+  }
+
+  @override
+  Query? get query =>
+      (attachedDatabase.selectOnly(instructors)..addColumns($columns)).join([
+        leftOuterJoin(courses, courses.instructorId.equalsExp(instructors.id))
+      ]);
+  @override
+  Set<String> get readTables => const {'courses', 'instructors'};
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   late final $InstructorsTable instructors = $InstructorsTable(this);
@@ -1033,10 +1147,17 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $CoursesTable courses = $CoursesTable(this);
   late final $CourseRegistrationsTable courseRegistrations =
       $CourseRegistrationsTable(this);
+  late final $InstructorWithCoursesViewView instructorWithCoursesView =
+      $InstructorWithCoursesViewView(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [instructors, students, courses, courseRegistrations];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [
+        instructors,
+        students,
+        courses,
+        courseRegistrations,
+        instructorWithCoursesView
+      ];
 }

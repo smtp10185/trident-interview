@@ -15,14 +15,14 @@ class StudentDashboardPage extends StatelessWidget {
           children: [
             ElevatedButton(
               onPressed: () {
-                context.go('/course-list');
+                context.go('/student-course-list');
               },
               child: const Text('Course List'),
             ),
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                context.go('/instructorList');
+                context.go('/student-instructor-list');
               },
               child: const Text('Instructor List'),
             ),

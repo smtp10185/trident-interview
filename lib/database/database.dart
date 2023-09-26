@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:drift/drift.dart';
+import 'package:path/path.dart';
 
 part 'database.g.dart';
 
@@ -10,25 +11,14 @@ part 'student.dart';
 part 'course.dart';
 part 'course_registration.dart';
 
-@DriftDatabase(tables: [Instructors, Students, Courses, CourseRegistrations])
+@DriftDatabase(
+    tables: [Instructors, Students, Courses, CourseRegistrations],
+    views: [InstructorWithCoursesView])
 class AppDatabase extends _$AppDatabase {
   AppDatabase(QueryExecutor e) : super(e);
 
-  final _random = Random();
-
   @override
   int get schemaVersion => 1;
-
-  Future<int> addRandomCourse(int instructorId) async {
-    final randomCourseCompanion = CoursesCompanion(
-      title: Value('Random Course ${_random.nextInt(1000)}'),
-      description: const Value('This is a randomly generated course.'),
-      timing: Value(
-          '${_random.nextInt(24).toString().padLeft(2, '0')}00-${_random.nextInt(24).toString().padLeft(2, '0')}00'), // Generates a timing like "0500-1400"
-      instructorId: Value(instructorId),
-    );
-    return into(courses).insert(randomCourseCompanion);
-  }
 
   Future<Instructor?> getInstructor(String username, String password) {
     return (select(instructors)
@@ -91,19 +81,27 @@ class AppDatabase extends _$AppDatabase {
           Insertable<CourseRegistration> registration) =>
       delete(courseRegistrations).delete(registration);
 
-  // Get the list of students registered for a specific course
-  /*
-  Future<List<Student>> getStudentsForCourse(Course course) {
-    final innerJoin = courseRegistrations.join(
-      students,
-      predicate: (registration, student) =>
-          registration.studentId.equals(student.id),
-    );
-    final query = innerJoin.where(
-        (registration, student) => registration.courseId.equals(course.id));
-    return query.map((joined) => joined.readTable(students)).get();
-  }*/
-
-  // Create some dummy data
   onCreate() {}
+}
+
+class InstructorWithCoursesData {
+  final Instructor instructor;
+  final List<Course> courses;
+
+  InstructorWithCoursesData({
+    required this.instructor,
+    required this.courses,
+  });
+}
+
+abstract class InstructorWithCoursesView extends View {
+  Courses get courses;
+  Instructors get instructors;
+
+  @override
+  Query as() => select([instructors.name, courses.id, courses.title])
+          .from(instructors)
+          .join([
+        leftOuterJoin(courses, courses.instructorId.equalsExp(instructors.id)),
+      ]);
 }

@@ -32,7 +32,6 @@ class CourseStudentsDialog extends StatelessWidget {
                     final student = snapshot.data![index];
                     return ListTile(
                       title: Text(student.name),
-                      // Add more details about the student if needed
                     );
                   },
                 );

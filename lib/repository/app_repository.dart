@@ -67,14 +67,38 @@ class AppRepository {
     return db.select(db.instructors).watch();
   }
 
+  // 學生查詢是否選過某課
+  Future<bool> isEnrollCourse(int studentId, int courseId) async {
+    final query = db.select(db.courseRegistrations)
+      ..where((registration) =>
+          registration.studentId.equals(studentId) &
+          registration.courseId.equals(courseId));
+
+    final enrollment = await query.getSingleOrNull();
+    return enrollment != null;
+  }
+
+  Stream<bool> watchEnrollCourse(int studentId, int courseId) {
+    return (db.select(db.courseRegistrations)
+          ..where((registration) =>
+              registration.studentId.equals(studentId) &
+              registration.courseId.equals(courseId)))
+        .watch()
+        .map((registrations) => registrations.isNotEmpty);
+  }
+
   // 學生選課
-  Future<int> enrollCourse(
-      CourseRegistrationsCompanion courseRegistration) async {
+  Future<int> enrollCourse(int studentId, int courseId) async {
+    final courseRegistration = CourseRegistrationsCompanion(
+        studentId: Value(studentId), courseId: Value(courseId));
     return db.into(db.courseRegistrations).insert(courseRegistration);
   }
 
   // 學生退選
-  Future<int> unenrollCourse(CourseRegistration courseRegistration) async {
-    return db.delete(db.courseRegistrations).delete(courseRegistration);
+  Future<int> unenrollCourse(int studentId, int courseId) async {
+    return (db.delete(db.courseRegistrations)
+          ..where((t) =>
+              t.studentId.equals(studentId) & t.courseId.equals(courseId)))
+        .go();
   }
 }

@@ -1,6 +1,7 @@
 # trident_interview
 
 Implementing and playing around with SQLite.
+大部分資料已做成隨資料庫變動的形式，操作即監聽變化
 
 ## snip of app
 
