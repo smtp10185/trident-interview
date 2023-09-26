@@ -1,10 +1,10 @@
-# trident_interview
+# T家面試題
 
 Implementing and playing around with SQLite.
 
 大部分資料已做成隨資料庫變動的形式，操作即監聽變化
 
-## snip of app
+## Snippet
 
 <img src="https://github.com/smtp10185/trident-interview/assets/76031581/a411af81-dd95-4de1-97f0-76bb0590453f" width="250"/>
 
